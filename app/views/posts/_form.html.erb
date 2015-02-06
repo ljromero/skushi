@@ -1,0 +1,9 @@
+<%= form_for([@user, @user.posts.build]) do |f| %>
+  <p>
+    <%= f.label :text %>
+    <%= f.text_field :text %>
+  </p>
+  <p>
+    <%= f.submit %>
+  </p>
+<% end %>

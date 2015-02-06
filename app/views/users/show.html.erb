@@ -1,0 +1,53 @@
+<h1>Show User <%= @user.id %></h1>
+
+<p>
+  <strong>Email:</strong>
+  <%= @user.email %>
+</p>
+  
+<p>
+  <strong>Nick:</strong>
+  <%= @user.nick %>
+</p>
+
+<% unless @user.posts.empty? %>
+  <h2>Posts</h2>
+  <table>
+    <tr>
+      <th>Text</th>
+      <th>Time</th>
+    </tr>
+    <%= render @user.posts %>
+  </table>
+<% end %>
+
+<h2>Add a new post:</h2>
+<%= render 'posts/form' %>
+
+<% unless @user.followers.empty? %>
+  <h2>Followers</h2>
+  <% @user.followers.each do |follower| %>
+    <%= follower.nick %>
+  <% end %>
+<% end %>
+
+<% unless @user.followings.empty? %>
+  <h2>Following users</h2>
+  <% @user.followings.each do |following| %>
+    <%= link_to following.nick, unfollow_user_path(:user_id => @user.id,
+                                                   :friend_id => following.id) %>
+  <% end %>
+  <%= link_to 'See their posts', follower_posts_user_path(@user) %>
+<% end %>
+
+<% unless @user.to_follow.empty? %>
+  <h2>Follow a new user</h2>
+  <% @user.to_follow.each do |user| %>
+    <%= link_to user.nick, follow_user_path(:user_id   => @user.id,
+                                            :friend_id => user.id) %>
+  <% end %>
+<% end %>
+
+<br/><br/><br/>
+<%= link_to 'Back', users_path %>
+<%= link_to 'Edit', edit_user_path(@user) %>
